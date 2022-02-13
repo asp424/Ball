@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContent { Sq() }
+        setContent { CollapsedItem() }
     }
 
     @Composable
@@ -90,41 +90,4 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun Sq() {
-    val screenHeight = LocalConfiguration.current.screenHeightDp.dp
-    val h by remember { mutableStateOf(false) }
-    val state = rememberScrollState()
 
-    var height by remember { mutableStateOf(screenHeight / 3) }
-    LaunchedEffect(state.value) {
-        if (height <= screenHeight / 3)
-            height = screenHeight / 3 - state.value.dp / 3
-    }
-    Column(
-        Modifier
-            .fillMaxSize()
-            .verticalScroll(state), horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
-    ) {
-
-        Image(
-            painter = painterResource(id = R.drawable.b), contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.size(
-                LocalConfiguration.current.screenWidthDp.dp,
-                height = height
-            )
-        )
-        repeat(6) {
-            Image(
-                painter = painterResource(id = R.drawable.a), contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.size(
-                    LocalConfiguration.current.screenWidthDp.dp,
-                    height = LocalConfiguration.current.screenHeightDp.dp / 3
-                )
-            )
-        }
-    }
-}
